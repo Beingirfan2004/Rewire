@@ -19,6 +19,7 @@
 		36320DC72B6A5427004AFDDE /* RWButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36320DC62B6A5427004AFDDE /* RWButton.swift */; };
 		36320DCA2B6A840F004AFDDE /* RankVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36320DC92B6A840F004AFDDE /* RankVC.swift */; };
 		36320DCF2B6A850D004AFDDE /* RWTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36320DCE2B6A850D004AFDDE /* RWTabBarController.swift */; };
+		36320DD22B6BB12A004AFDDE /* TimeCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36320DD12B6BB12A004AFDDE /* TimeCalculator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		36320DC62B6A5427004AFDDE /* RWButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RWButton.swift; sourceTree = "<group>"; };
 		36320DC92B6A840F004AFDDE /* RankVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankVC.swift; sourceTree = "<group>"; };
 		36320DCE2B6A850D004AFDDE /* RWTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RWTabBarController.swift; sourceTree = "<group>"; };
+		36320DD12B6BB12A004AFDDE /* TimeCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeCalculator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +70,7 @@
 		36320D9C2B694665004AFDDE /* Rewire */ = {
 			isa = PBXGroup;
 			children = (
+				36320DD02B6BB102004AFDDE /* Utility */,
 				36320DB62B6950C9004AFDDE /* CustomComponents */,
 				36320DB52B695082004AFDDE /* Screens */,
 				36320D9D2B694665004AFDDE /* AppDelegate.swift */,
@@ -139,6 +142,14 @@
 				36320DCE2B6A850D004AFDDE /* RWTabBarController.swift */,
 			);
 			path = TabBarControllers;
+			sourceTree = "<group>";
+		};
+		36320DD02B6BB102004AFDDE /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				36320DD12B6BB12A004AFDDE /* TimeCalculator.swift */,
+			);
+			path = Utility;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -218,6 +229,7 @@
 				36320DBE2B6A1749004AFDDE /* RWTimerContainerView.swift in Sources */,
 				36320DC42B6A3CFD004AFDDE /* RWGradientView.swift in Sources */,
 				36320DA02B694665004AFDDE /* SceneDelegate.swift in Sources */,
+				36320DD22B6BB12A004AFDDE /* TimeCalculator.swift in Sources */,
 				36320DC72B6A5427004AFDDE /* RWButton.swift in Sources */,
 				36320DB42B695061004AFDDE /* MainTimerVC.swift in Sources */,
 				36320DCA2B6A840F004AFDDE /* RankVC.swift in Sources */,
