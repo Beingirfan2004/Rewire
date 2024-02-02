@@ -20,6 +20,7 @@
 		36320DCA2B6A840F004AFDDE /* RankVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36320DC92B6A840F004AFDDE /* RankVC.swift */; };
 		36320DCF2B6A850D004AFDDE /* RWTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36320DCE2B6A850D004AFDDE /* RWTabBarController.swift */; };
 		36320DD22B6BB12A004AFDDE /* TimeCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36320DD12B6BB12A004AFDDE /* TimeCalculator.swift */; };
+		36320DD42B6CB7FB004AFDDE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36320DD32B6CB7FB004AFDDE /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		36320DC92B6A840F004AFDDE /* RankVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankVC.swift; sourceTree = "<group>"; };
 		36320DCE2B6A850D004AFDDE /* RWTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RWTabBarController.swift; sourceTree = "<group>"; };
 		36320DD12B6BB12A004AFDDE /* TimeCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeCalculator.swift; sourceTree = "<group>"; };
+		36320DD32B6CB7FB004AFDDE /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +150,7 @@
 			isa = PBXGroup;
 			children = (
 				36320DD12B6BB12A004AFDDE /* TimeCalculator.swift */,
+				36320DD32B6CB7FB004AFDDE /* Constants.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -233,6 +236,7 @@
 				36320DC72B6A5427004AFDDE /* RWButton.swift in Sources */,
 				36320DB42B695061004AFDDE /* MainTimerVC.swift in Sources */,
 				36320DCA2B6A840F004AFDDE /* RankVC.swift in Sources */,
+				36320DD42B6CB7FB004AFDDE /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

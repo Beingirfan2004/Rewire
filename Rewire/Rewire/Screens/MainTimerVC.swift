@@ -19,34 +19,30 @@ class MainTimerVC: UIViewController {
     let longestStreakTimerlabel     = RWTimerLabel()
     let rightActionButton           = RWButton(title: "Media")
     let leftActionButton            = RWButton(title: "Meditate")
+    var longestStreak               : Date!
+    var startDate                   : Date!
+    var timer                       : Timer?
     var isLongestStreak             : Bool {
         get{
-            if let streak = UserDefaults.standard.value(forKey: "isLongestStreak") as? Bool{
+            if let streak = UserDefaults.standard.value(forKey: Constants.isLongestStreak) as? Bool{
                 return streak
             } else {
                 return false
             }
         } set (newValue){
-            UserDefaults.standard.setValue(newValue, forKey: "isLongestStreak")
+            UserDefaults.standard.setValue(newValue, forKey: Constants.isLongestStreak)
             calculateStreaks()
             
         }
         
     }
     
-    var longestStreak               : Date!
-    var startDate                   : Date!
-    var timer                       : Timer?
     
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         configure()
         calculateStreaks()
-        
-        
     }
     
     
@@ -63,7 +59,6 @@ class MainTimerVC: UIViewController {
         configureContainerView()
         configureDaysView()
         configureElementsInContainerView()
-        startTimer()
         configureLeftButton()
         configureRightButton()
         configureBarItem()
@@ -90,66 +85,34 @@ class MainTimerVC: UIViewController {
     }
     
     
-    func extractComponents(_ interval: TimeInterval) -> (days: Int, hours: Int, min: Int, sec: Int){
-        let dateComponent = DateComponents(second: Int(interval))
-        
-        let calendar = Calendar.current
-        let components = calendar.dateComponents([.day ,.hour, .minute, .second], from: Date(), to: calendar.date(byAdding: dateComponent, to: Date())!)
-
-            // Extract the components
-        let days = components.day ?? 00
-            let hours = components.hour ?? 00
-            let minutes = components.minute ?? 00
-            let seconds = components.second ?? 00
-
-            return (days,hours, minutes, seconds)
-    }
-    
-    
-    func formatTimeInterval(_ interval : TimeInterval) -> String {
-        let formatter = DateComponentsFormatter()
-        formatter.unitsStyle = .abbreviated
-        formatter.allowedUnits = [.day, .hour, .minute, .second]
-        
-        return formatter.string(from: interval) ?? "00d 00h 00m 00s"
-    }
-    
-    
     @objc func topRightButtonTapped() {
         let startAgain = Date()
         
-        guard let newStreak = UserDefaults.standard.value(forKey: "startDate") as? Date else {
-            print("I am here")
+        guard let newStreak = UserDefaults.standard.value(forKey: Constants.startDate) as? Date else {
             return
         }
+        
         let newElapsed = Date().timeIntervalSince(newStreak)
-        guard let oldElapsed = UserDefaults.standard.value(forKey: "streak") as? TimeInterval else {
-            UserDefaults.standard.setValue(startAgain, forKey: "startDate")
+        
+        guard let oldElapsed = UserDefaults.standard.value(forKey: Constants.streak) as? TimeInterval else {
+            UserDefaults.standard.setValue(startAgain, forKey: Constants.startDate)
             startDate = startAgain
+            UserDefaults.standard.setValue(newElapsed, forKey: Constants.streak)
             isLongestStreak = true
-            print(isLongestStreak)
-            UserDefaults.standard.setValue(isLongestStreak, forKey: "isLongestStreak")
-            UserDefaults.standard.setValue(newElapsed, forKey: "streak")
-            
             return
         }
         
         guard newElapsed >= oldElapsed else {
-            UserDefaults.standard.setValue(startAgain, forKey: "startDate")
+            UserDefaults.standard.setValue(startAgain, forKey: Constants.startDate)
             startDate = startAgain
             isLongestStreak = true
-            print("I am here 2")
-            print(newElapsed, oldElapsed)
-            
-            
             return
         }
-        UserDefaults.standard.setValue(startAgain, forKey: "startDate")
-        startDate = startAgain
-        isLongestStreak = true
         
-        UserDefaults.standard.setValue(isLongestStreak, forKey: "isLongestStreak")
-        UserDefaults.standard.setValue(newElapsed, forKey: "streak")
+        UserDefaults.standard.setValue(startAgain, forKey: Constants.startDate)
+        startDate = startAgain
+        UserDefaults.standard.setValue(newElapsed, forKey: Constants.streak)
+        isLongestStreak = true
         calculateStreaks()
          
     }
@@ -166,19 +129,17 @@ class MainTimerVC: UIViewController {
     
     
     func calculateStreaks() {
-        if let savedDate = UserDefaults.standard.value(forKey: "startDate") as? Date{
+        if let savedDate = UserDefaults.standard.value(forKey: Constants.startDate) as? Date{
             startDate = savedDate
+            startTimer()
         } else {
             startDate = Date()
-            UserDefaults.standard.setValue(startDate, forKey: "startDate")
-            
+            UserDefaults.standard.setValue(startDate, forKey: Constants.startDate)
             startTimer()
         }
         
-        if let savedElapsed = UserDefaults.standard.value(forKey: "streak") as? TimeInterval, isLongestStreak{
+        if let savedElapsed = UserDefaults.standard.value(forKey: Constants.streak) as? TimeInterval, isLongestStreak{
             let elapsedTime = Date().timeIntervalSince(startDate)
-            
-            
             if savedElapsed > elapsedTime {
                 let timeRemaining = savedElapsed - elapsedTime
                 DispatchQueue.main.asyncAfter(deadline: .now() + timeRemaining) {
@@ -195,7 +156,7 @@ class MainTimerVC: UIViewController {
     }
     
     func configureBarItem() {
-        let topRightActionButton = UIBarButtonItem(image: UIImage(systemName: "hand.thumbsdown"), style: .plain, target: self,   action:#selector(topRightButtonTapped))
+        let topRightActionButton = UIBarButtonItem(image: UIImage(systemName: Constants.thumbImage), style: .plain, target: self,   action:#selector(topRightButtonTapped))
         navigationItem.rightBarButtonItem = topRightActionButton
     }
 
@@ -249,9 +210,7 @@ class MainTimerVC: UIViewController {
         timerContainerView.addSubview(longestStreakTimerlabel)
         
         currentStreakLabel.text         = "Current Streak:"
-        currentStreakTimerLabel.text    = "00d 00h 00m 00s"
         longestStreakLabel.text         = "Longest Streak:"
-        longestStreakTimerlabel.text    = "00d 00h 00m 00s"
         
         NSLayoutConstraint.activate([
             currentStreakLabel.topAnchor.constraint(equalTo: timerContainerView.topAnchor, constant: 20),
