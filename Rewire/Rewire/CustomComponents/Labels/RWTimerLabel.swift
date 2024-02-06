@@ -28,9 +28,9 @@ class RWTimerLabel: UILabel {
     
     
     private func configure() {
-        textColor           = .label
-        textAlignment       = .center
-        font                = UIFont.systemFont(ofSize: 30, weight: .semibold)
+        textColor                       = .label
+        textAlignment                   = .center
+        font                            = UIFont.systemFont(ofSize: 30, weight: .semibold)
         translatesAutoresizingMaskIntoConstraints = false
     }
 

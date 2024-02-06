@@ -47,6 +47,58 @@ class TimeCalculator {
     }
     
     
+    func extractSecComponent(_ interval: TimeInterval) -> Int{
+        let dateComponent = DateComponents(second: Int(interval))
+        
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.day ,.hour, .minute, .second], from: Date(), to: calendar.date(byAdding: dateComponent, to: Date())!)
+
+            // Extract the component
+            let seconds = components.second ?? 00
+
+           return seconds
+    }
+    
+    
+    func extractMinComponent(_ interval: TimeInterval) -> Int{
+        let dateComponent = DateComponents(second: Int(interval))
+        
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.day ,.hour, .minute, .second], from: Date(), to: calendar.date(byAdding: dateComponent, to: Date())!)
+
+            // Extract the component
+            let minutes = components.minute ?? 00
+
+           return minutes
+    }
+    
+    
+    func extractHourComponent(_ interval: TimeInterval) -> Int{
+        let dateComponent = DateComponents(second: Int(interval))
+        
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.day ,.hour, .minute, .second], from: Date(), to: calendar.date(byAdding: dateComponent, to: Date())!)
+
+            // Extract the component
+            let hours = components.hour ?? 00
+
+           return hours
+    }
+    
+    
+    func extractDayComponent(_ interval: TimeInterval) -> Int{
+        let dateComponent = DateComponents(second: Int(interval))
+        
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.day ,.hour, .minute, .second], from: Date(), to: calendar.date(byAdding: dateComponent, to: Date())!)
+
+            // Extract the component
+            let days = components.day ?? 00
+
+           return days
+    }
+
+    
     func updateDate() {
         if let savedDate = UserDefaults.standard.value(forKey: Constants.startDate) as? Date{
             startDate = savedDate
@@ -57,7 +109,7 @@ class TimeCalculator {
     }
     
     
-    func updateStreak()  -> Result<(Int, Int, Int, Int), RWError> {
+    func updateStreak()  -> Result<(days:Int, hours: Int, min: Int, sec: Int), RWError> {
         if let savedElapsed = UserDefaults.standard.value(forKey: Constants.streak) as? TimeInterval, isLongestStreak{
             let elapsedTime = Date().timeIntervalSince(startDate)
             if savedElapsed > elapsedTime {

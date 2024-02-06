@@ -14,19 +14,18 @@ class MainTimerVC: UIViewController , TimeCalculatorDelegate{
     let daysLabel                   = RWTimerLabel(fontSize: 20, fontWeight: .bold, fontColor: .white)
     let daysContainerView           = RWGradientView(color1: .systemPurple, color2: .systemBlue, cornerRadius: 100)
     let timerContainerView          = RWTimerContainerView()
-    let currentStreakLabel          = RWTimerTitleLabel(backgroundColor: .systemPurple )
-    let currentStreakTimerLabel     = RWTimerLabel()
-    let longestStreakLabel          = RWTimerTitleLabel(backgroundColor: .systemPurple )
-    let longestStreakTimerlabel     = RWTimerLabel()
     let rightActionButton           = RWButton(title: "Media")
     let leftActionButton            = RWButton(title: "Meditate")
     var timer                       : Timer?
+    let mainTimerUIUpdater          = MainTimerUIUpdater()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        calculateStreaks()
+        
         configure()
+        calculateStreaks()
     }
     
     
@@ -34,6 +33,7 @@ class MainTimerVC: UIViewController , TimeCalculatorDelegate{
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationController?.navigationBar.barTintColor = .secondarySystemBackground
+        updateOnce()
     }
     
     let padding: CGFloat = 20
@@ -42,7 +42,6 @@ class MainTimerVC: UIViewController , TimeCalculatorDelegate{
     func configure() {
         configureContainerView()
         configureDaysView()
-        configureElementsInContainerView()
         configureLeftButton()
         configureRightButton()
         configureBarItem()
@@ -50,9 +49,30 @@ class MainTimerVC: UIViewController , TimeCalculatorDelegate{
     }
     
     
+    func updateOnce() {
+        let elapsedTime = Date().timeIntervalSince(timeCalculator.startDate)
+        let time = timeCalculator.extractComponents(elapsedTime)
+        daysTimerLabel.text        = "\(time.days)"
+        let oldStreak = UserDefaults.standard.value(forKey: Constants.streak) as? TimeInterval
+
+        mainTimerUIUpdater.updateOnce(
+            time: time,
+            currentDayLabel: timerContainerView.currentDayLabel,
+            currentHourLabel: timerContainerView.currentHourLabel,
+            currentMinLabel: timerContainerView.currentMinLabel,
+            currentSecLabel: timerContainerView.currentSecLabel,
+            longestDayLabel: timerContainerView.longestDayLabel,
+            longestHourLabel: timerContainerView.longestHourLabel,
+            longestMinLabel: timerContainerView.longestMinLabel,
+            longestSecLabel: timerContainerView.longestSecLabel,
+            isLongestStreak: timeCalculator.isLongestStreak,
+            oldStreak: oldStreak)
+    }
+    
+    
     func startTimer() {
+        updateTime()
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
-        
     }
     
     
@@ -60,11 +80,18 @@ class MainTimerVC: UIViewController , TimeCalculatorDelegate{
         let elapsedTime = Date().timeIntervalSince(timeCalculator.startDate)
         let time = timeCalculator.extractComponents(elapsedTime)
         
-        currentStreakTimerLabel.text = "\(time.days)d \(time.hours)h \(time.min)m \(time.sec)s"
-        
-        if !timeCalculator.isLongestStreak {
-            longestStreakTimerlabel.text = currentStreakTimerLabel.text
-        }
+        mainTimerUIUpdater.updateTime(
+            time: time,
+            currentDayLabel: timerContainerView.currentDayLabel,
+            currentHourLabel: timerContainerView.currentHourLabel,
+            currentMinLabel: timerContainerView.currentMinLabel,
+            currentSecLabel: timerContainerView.currentSecLabel,
+            longestDayLabel: timerContainerView.longestDayLabel,
+            longestHourLabel: timerContainerView.longestHourLabel,
+            longestMinLabel: timerContainerView.longestMinLabel,
+            longestSecLabel: timerContainerView.longestSecLabel,
+            daysTimerLabel: daysTimerLabel,
+            isLongestStreak: timeCalculator.isLongestStreak)
     }
     
     
@@ -88,14 +115,19 @@ class MainTimerVC: UIViewController , TimeCalculatorDelegate{
         timeCalculator.updateDate()
         startTimer()
         let result = timeCalculator.updateStreak()
-        switch result {
-        case .success(let extractedStreak):
-            longestStreakTimerlabel.text = "\(extractedStreak.0)d \(extractedStreak.1)h \(extractedStreak.2)m \(extractedStreak.3)s"
-        case .failure( _):
-            longestStreakTimerlabel.text = currentStreakTimerLabel.text
-        }
         
+        mainTimerUIUpdater.updateStreakUI(
+            result: result,
+            longestDayLabel: timerContainerView.longestDayLabel,
+            longestHourLabel: timerContainerView.longestHourLabel,
+            longestMinLabel: timerContainerView.longestMinLabel,
+            longestSecLabel: timerContainerView.longestSecLabel,
+            currentDayLabel: timerContainerView.currentDayLabel,
+            currentHourLabel: timerContainerView.currentHourLabel,
+            currentMinLabel: timerContainerView.currentMinLabel,
+            currentSecLabel: timerContainerView.currentSecLabel)
     }
+    
     
     func configureBarItem() {
         let topRightActionButton = UIBarButtonItem(image: UIImage(systemName: Constants.thumbImage), style: .plain, target: self,   action:#selector(topRightButtonTapped))
@@ -141,39 +173,6 @@ class MainTimerVC: UIViewController , TimeCalculatorDelegate{
             daysLabel.leadingAnchor.constraint(equalTo: daysContainerView.leadingAnchor),
             daysLabel.trailingAnchor.constraint(equalTo: daysContainerView.trailingAnchor),
             daysLabel.heightAnchor.constraint(equalToConstant: 25)
-        ])
-    }
-    
-    
-    func configureElementsInContainerView() {
-        timerContainerView.addSubview(currentStreakLabel)
-        timerContainerView.addSubview(currentStreakTimerLabel)
-        timerContainerView.addSubview(longestStreakLabel)
-        timerContainerView.addSubview(longestStreakTimerlabel)
-        
-        currentStreakLabel.text         = "Current Streak:"
-        longestStreakLabel.text         = "Longest Streak:"
-        
-        NSLayoutConstraint.activate([
-            currentStreakLabel.topAnchor.constraint(equalTo: timerContainerView.topAnchor, constant: 20),
-            currentStreakLabel.leadingAnchor.constraint(equalTo: timerContainerView.leadingAnchor, constant: padding * 4),
-            currentStreakLabel.trailingAnchor.constraint(equalTo: timerContainerView.trailingAnchor, constant: -padding * 4),
-            currentStreakLabel.heightAnchor.constraint(equalToConstant: 40),
-            
-            currentStreakTimerLabel.topAnchor.constraint(equalTo: currentStreakLabel.bottomAnchor, constant: 15),
-            currentStreakTimerLabel.leadingAnchor.constraint(equalTo: timerContainerView.leadingAnchor, constant: padding),
-            currentStreakTimerLabel.trailingAnchor.constraint(equalTo: timerContainerView.trailingAnchor, constant: -padding),
-            currentStreakTimerLabel.heightAnchor.constraint(equalToConstant: 60),
-            
-            longestStreakLabel.topAnchor.constraint(equalTo: currentStreakTimerLabel.bottomAnchor, constant: 30),
-            longestStreakLabel.leadingAnchor.constraint(equalTo: timerContainerView.leadingAnchor, constant: padding * 4),
-            longestStreakLabel.trailingAnchor.constraint(equalTo: timerContainerView.trailingAnchor, constant: -padding * 4),
-            longestStreakLabel.heightAnchor.constraint(equalToConstant: 40),
-            
-            longestStreakTimerlabel.topAnchor.constraint(equalTo: longestStreakLabel.bottomAnchor, constant: 15),
-            longestStreakTimerlabel.leadingAnchor.constraint(equalTo: timerContainerView.leadingAnchor, constant: padding),
-            longestStreakTimerlabel.trailingAnchor.constraint(equalTo: timerContainerView.trailingAnchor, constant: -padding),
-            longestStreakTimerlabel.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
     
