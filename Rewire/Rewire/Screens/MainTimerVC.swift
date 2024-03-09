@@ -96,12 +96,13 @@ class MainTimerVC: UIViewController , TimeCalculatorDelegate{
     
     
     @objc func topRightButtonTapped() {
-        timeCalculator.resetStreak()
+        let datePickerVC = DateAndTimePickerVC()
+        present(datePickerVC, animated: true)
     }
     
     
     @objc func leftButtonTapped() {
-        
+                
     }
     
     

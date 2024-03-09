@@ -24,6 +24,8 @@
 		36320DD62B6CCBC0004AFDDE /* RWError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36320DD52B6CCBC0004AFDDE /* RWError.swift */; };
 		36320DD92B6DF729004AFDDE /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36320DD82B6DF729004AFDDE /* UIView+Ext.swift */; };
 		36320DDB2B6E3465004AFDDE /* MainTimerUIUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36320DDA2B6E3465004AFDDE /* MainTimerUIUpdater.swift */; };
+		36320E1E2B73E72E004AFDDE /* DateAndTimePickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36320E1D2B73E72E004AFDDE /* DateAndTimePickerVC.swift */; };
+		36320E212B73E85C004AFDDE /* RWDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36320E202B73E85C004AFDDE /* RWDatePicker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +48,8 @@
 		36320DD52B6CCBC0004AFDDE /* RWError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RWError.swift; sourceTree = "<group>"; };
 		36320DD82B6DF729004AFDDE /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
 		36320DDA2B6E3465004AFDDE /* MainTimerUIUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTimerUIUpdater.swift; sourceTree = "<group>"; };
+		36320E1D2B73E72E004AFDDE /* DateAndTimePickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateAndTimePickerVC.swift; sourceTree = "<group>"; };
+		36320E202B73E85C004AFDDE /* RWDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RWDatePicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +107,7 @@
 		36320DB62B6950C9004AFDDE /* CustomComponents */ = {
 			isa = PBXGroup;
 			children = (
+				36320E1F2B73E835004AFDDE /* DatePicker */,
 				36320DCD2B6A84EC004AFDDE /* TabBarControllers */,
 				36320DC82B6A83BF004AFDDE /* ViewControllers */,
 				36320DC52B6A540C004AFDDE /* Buttons */,
@@ -141,6 +146,7 @@
 		36320DC82B6A83BF004AFDDE /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				36320E1D2B73E72E004AFDDE /* DateAndTimePickerVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -170,6 +176,14 @@
 				36320DD82B6DF729004AFDDE /* UIView+Ext.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		36320E1F2B73E835004AFDDE /* DatePicker */ = {
+			isa = PBXGroup;
+			children = (
+				36320E202B73E85C004AFDDE /* RWDatePicker.swift */,
+			);
+			path = DatePicker;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -253,10 +267,12 @@
 				36320DA02B694665004AFDDE /* SceneDelegate.swift in Sources */,
 				36320DD22B6BB12A004AFDDE /* TimeCalculator.swift in Sources */,
 				36320DD62B6CCBC0004AFDDE /* RWError.swift in Sources */,
+				36320E1E2B73E72E004AFDDE /* DateAndTimePickerVC.swift in Sources */,
 				36320DC72B6A5427004AFDDE /* RWButton.swift in Sources */,
 				36320DB42B695061004AFDDE /* MainTimerVC.swift in Sources */,
 				36320DCA2B6A840F004AFDDE /* RankVC.swift in Sources */,
 				36320DD42B6CB7FB004AFDDE /* Constants.swift in Sources */,
+				36320E212B73E85C004AFDDE /* RWDatePicker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

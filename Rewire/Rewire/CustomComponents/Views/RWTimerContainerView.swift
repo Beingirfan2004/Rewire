@@ -79,23 +79,14 @@ class RWTimerContainerView: UIView {
         currentSecLabel.textAlignment   = .left
         longestDayLabel.textAlignment   = .right
         longestSecLabel.textAlignment   = .left
-//        currentHourLabel.textAlignment  = .right
-//        currentMinLabel.textAlignment   = .left
-//        longestHourLabel.textAlignment  = .right
-//        longestMinLabel.textAlignment  = .left
-        
+    
         
         NSLayoutConstraint.activate([
             currentStreakLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 20),
             currentStreakLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: padding * 4),
             currentStreakLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -padding * 4),
             currentStreakLabel.heightAnchor.constraint(equalToConstant: 40),
-            
-//            currentStreakTimerLabel.topAnchor.constraint(equalTo: currentStreakLabel.bottomAnchor, constant: 15),
-//            currentStreakTimerLabel.leadingAnchor.constraint(equalTo: timerContainerView.leadingAnchor, constant: padding),
-//            currentStreakTimerLabel.trailingAnchor.constraint(equalTo: timerContainerView.trailingAnchor, constant: -padding),
-//            currentStreakTimerLabel.heightAnchor.constraint(equalToConstant: 60),
-            
+                        
             currentHourLabel.topAnchor.constraint(equalTo: currentStreakLabel.bottomAnchor, constant: 15),
             currentHourLabel.trailingAnchor.constraint(equalTo: self.centerXAnchor, constant: -3),
             currentHourLabel.widthAnchor.constraint(equalToConstant: 60),
@@ -120,12 +111,7 @@ class RWTimerContainerView: UIView {
             longestStreakLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: padding * 4),
             longestStreakLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -padding * 4),
             longestStreakLabel.heightAnchor.constraint(equalToConstant: 40),
-            
-//            longestStreakTimerlabel.topAnchor.constraint(equalTo: longestStreakLabel.bottomAnchor, constant: 15),
-//            longestStreakTimerlabel.leadingAnchor.constraint(equalTo: timerContainerView.leadingAnchor, constant: padding),
-//            longestStreakTimerlabel.trailingAnchor.constraint(equalTo: timerContainerView.trailingAnchor, constant: -padding),
-//            longestStreakTimerlabel.heightAnchor.constraint(equalToConstant: 60)
-            
+                        
             longestHourLabel.topAnchor.constraint(equalTo: longestStreakLabel.bottomAnchor, constant: 15),
             longestHourLabel.trailingAnchor.constraint(equalTo: self.centerXAnchor, constant: -3),
             longestHourLabel.widthAnchor.constraint(equalToConstant: 60),

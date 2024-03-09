@@ -129,8 +129,8 @@ class TimeCalculator {
         return (.failure(.notLongestStreak))
     }
     
-    func resetStreak() {
-        let startAgain = Date()
+    func resetStreak(date: Date) {
+        let startAgain = date
         
         guard let newStreak = UserDefaults.standard.value(forKey: Constants.startDate) as? Date else {
             return
