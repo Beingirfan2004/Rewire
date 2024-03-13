@@ -9,8 +9,8 @@ import Foundation
 
 
 struct Constants {
-    static let isLongestStreak  = "isLongestStreak"
-    static let startDate        = "startDate"
-    static let streak           = "streak"
-    static let thumbImage      = "hand.thumbsdown"
+    static let isLongestStreak      = "isLongestStreak"
+    static let startStreakDate      = "startDate"
+    static let longestElapsed       = "streak"
+    static let thumbImage           = "hand.thumbsdown"
 }

@@ -8,11 +8,11 @@
 import UIKit
 
 class RWDatePicker: UIDatePicker {
-    var selectedDate : Date!
-    var onlyDate: String = ""
-    var onlyTime: String = ""
-    let formatter1 = DateFormatter()
-    let formatter2 = DateFormatter()
+    var selectedDate        : Date!
+    var onlyDate: String    = ""
+    var onlyTime: String    = ""
+    let formatter1          = DateFormatter()
+    let formatter2          = DateFormatter()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -29,17 +29,18 @@ class RWDatePicker: UIDatePicker {
         datePickerMode = .dateAndTime
         addTarget(self, action: #selector(datePickerValueChanged(_ :)), for: .valueChanged)
         translatesAutoresizingMaskIntoConstraints = false
-        date = Date()
-        selectedDate = date
-        maximumDate = Date()
-        preferredDatePickerStyle = .inline
-        tintColor = .systemPurple
-        timeZone = TimeZone.current
-        formatter1.timeZone = TimeZone.current
-        formatter2.timeZone = TimeZone.current
+        locale                      = .current
+        date                        = Date()
+        selectedDate                = date
+        maximumDate                 = Date()
+        preferredDatePickerStyle    = .inline
+        tintColor                   = .systemPurple
+        timeZone                    = TimeZone.current
+        formatter1.timeZone         = TimeZone.current
+        formatter2.timeZone         = TimeZone.current
         
-        formatter1.dateFormat = "d MMM, yyyy"
-        formatter2.dateFormat = "h:mm a"
+        formatter1.dateFormat       = "d MMM, yyyy"
+        formatter2.dateFormat       = "h:mm a"
         
         onlyDate = formatter1.string(from: selectedDate)
         onlyTime = formatter2.string(from: selectedDate)
@@ -47,8 +48,8 @@ class RWDatePicker: UIDatePicker {
     
     
     @objc func datePickerValueChanged(_ sender: UIDatePicker) {
-        selectedDate = sender.date
-        onlyDate = formatter1.string(from: selectedDate)
-        onlyTime = formatter2.string(from: selectedDate)
+        selectedDate    = sender.date
+        onlyDate        = formatter1.string(from: selectedDate)
+        onlyTime        = formatter2.string(from: selectedDate)
     }
 }

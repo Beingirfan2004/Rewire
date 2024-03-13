@@ -7,9 +7,8 @@
 
 import UIKit
 
-class MainTimerVC: UIViewController , TimeCalculatorDelegate{
-    
-    var timeCalculator              = TimeCalculator()
+class MainTimerVC: UIViewController{
+    var timeCalculator              = TimeCalculator.shared
     let daysTimerLabel              = RWTimerLabel(fontSize: 100, fontWeight: .black, fontColor: .white)
     let daysLabel                   = RWTimerLabel(fontSize: 20, fontWeight: .bold, fontColor: .white)
     let daysContainerView           = RWGradientView(color1: .systemPurple, color2: .systemBlue, cornerRadius: 100)
@@ -17,15 +16,18 @@ class MainTimerVC: UIViewController , TimeCalculatorDelegate{
     let rightActionButton           = RWButton(title: "Media")
     let leftActionButton            = RWButton(title: "Meditate")
     var timer                       : Timer?
-    let mainTimerUIUpdater          = MainTimerUIUpdater()
-    
-    
+    let datePickerVC                = DateAndTimePickerVC()
+
+    let padding: CGFloat = 20
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         
-        configure()
-        calculateStreaks()
+        configure() 
+        let result = timeCalculator.updateStreaks()
+        timerContainerView.updateStreakUI(result: result)
+        startTimer()
     }
     
     
@@ -33,40 +35,21 @@ class MainTimerVC: UIViewController , TimeCalculatorDelegate{
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationController?.navigationBar.barTintColor = .secondarySystemBackground
-        updateOnce()
+        
+        let result = timeCalculator.updateStreaks()
+        timerContainerView.updateStreakUI(result: result)
     }
     
-    let padding: CGFloat = 20
-    
-    
+        
     func configure() {
         configureContainerView()
         configureDaysView()
         configureLeftButton()
         configureRightButton()
         configureBarItem()
+        datePickerVC.delegate = self
         timeCalculator.delegate = self
-    }
-    
-    
-    func updateOnce() {
-        let elapsedTime = Date().timeIntervalSince(timeCalculator.startDate)
-        let time = timeCalculator.extractComponents(elapsedTime)
-        daysTimerLabel.text        = "\(time.days)"
-        let oldStreak = UserDefaults.standard.value(forKey: Constants.streak) as? TimeInterval
-
-        mainTimerUIUpdater.updateOnce(
-            time: time,
-            currentDayLabel: timerContainerView.currentDayLabel,
-            currentHourLabel: timerContainerView.currentHourLabel,
-            currentMinLabel: timerContainerView.currentMinLabel,
-            currentSecLabel: timerContainerView.currentSecLabel,
-            longestDayLabel: timerContainerView.longestDayLabel,
-            longestHourLabel: timerContainerView.longestHourLabel,
-            longestMinLabel: timerContainerView.longestMinLabel,
-            longestSecLabel: timerContainerView.longestSecLabel,
-            isLongestStreak: timeCalculator.isLongestStreak,
-            oldStreak: oldStreak)
+        timerContainerView.delegate = self
     }
     
     
@@ -77,27 +60,17 @@ class MainTimerVC: UIViewController , TimeCalculatorDelegate{
     
     
     @objc func updateTime() {
-        let elapsedTime = Date().timeIntervalSince(timeCalculator.startDate)
-        let time = timeCalculator.extractComponents(elapsedTime)
-        
-        mainTimerUIUpdater.updateTime(
-            time: time,
-            currentDayLabel: timerContainerView.currentDayLabel,
-            currentHourLabel: timerContainerView.currentHourLabel,
-            currentMinLabel: timerContainerView.currentMinLabel,
-            currentSecLabel: timerContainerView.currentSecLabel,
-            longestDayLabel: timerContainerView.longestDayLabel,
-            longestHourLabel: timerContainerView.longestHourLabel,
-            longestMinLabel: timerContainerView.longestMinLabel,
-            longestSecLabel: timerContainerView.longestSecLabel,
-            daysTimerLabel: daysTimerLabel,
-            isLongestStreak: timeCalculator.isLongestStreak)
+        let result = timeCalculator.extractComponents(Date().timeIntervalSince(timeCalculator.startStreakDate))
+        timerContainerView.updateTime(time: result)
     }
     
     
     @objc func topRightButtonTapped() {
-        let datePickerVC = DateAndTimePickerVC()
+        
         present(datePickerVC, animated: true)
+        datePickerVC.datePicker.maximumDate = Date()
+        datePickerVC.datePicker.selectedDate = Date()
+        
     }
     
     
@@ -108,25 +81,6 @@ class MainTimerVC: UIViewController , TimeCalculatorDelegate{
     
     @objc func rightButtonTapped() {
         
-    }
-    
-    
-    func calculateStreaks() {
-        
-        timeCalculator.updateDate()
-        startTimer()
-        let result = timeCalculator.updateStreak()
-        
-        mainTimerUIUpdater.updateStreakUI(
-            result: result,
-            longestDayLabel: timerContainerView.longestDayLabel,
-            longestHourLabel: timerContainerView.longestHourLabel,
-            longestMinLabel: timerContainerView.longestMinLabel,
-            longestSecLabel: timerContainerView.longestSecLabel,
-            currentDayLabel: timerContainerView.currentDayLabel,
-            currentHourLabel: timerContainerView.currentHourLabel,
-            currentMinLabel: timerContainerView.currentMinLabel,
-            currentSecLabel: timerContainerView.currentSecLabel)
     }
     
     
@@ -203,3 +157,38 @@ class MainTimerVC: UIViewController , TimeCalculatorDelegate{
         ])
     }
 }
+
+
+//MARK: - DateAndTimePickerVCDelegate
+extension MainTimerVC: DateAndTimePickerVCDelegate {
+    func resetButtonTapped(date: Date) {
+        let result = timeCalculator.resetBothStreak(date: date)
+        timerContainerView.updateStreakUI(result: result)
+    }
+}
+
+
+//MARK: - TimeCalculatorDelegate
+extension MainTimerVC: TimeCalculatorDelegate {
+    func updateCurrent(date: Date) {
+        let time = timeCalculator.extractComponents(Date().timeIntervalSince(date))
+        daysTimerLabel.text = "\(time.days)"
+        timerContainerView.updateCurrentStreak(time: time)
+
+    }
+    
+    func updateStreaks(date: Date) {
+        let time = timeCalculator.extractComponents(Date().timeIntervalSince(date))
+        daysTimerLabel.text = "\(time.days)"
+        timerContainerView.updateOnce(time: time)
+    }
+}
+
+
+//MARK: - RWTimerContainerViewDelegate
+extension MainTimerVC: RWTimerContainerViewDelegate {
+    func updateDaysLabel(days: Int) {
+        daysTimerLabel.text = "\(days)"
+    }
+}
+

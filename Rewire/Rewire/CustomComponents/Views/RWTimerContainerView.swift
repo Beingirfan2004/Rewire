@@ -7,8 +7,13 @@
 
 import UIKit
 
+protocol RWTimerContainerViewDelegate: AnyObject {
+    func updateDaysLabel(days: Int)
+}
+
 class RWTimerContainerView: UIView {
     
+    let timeCalculator              = TimeCalculator.shared
     let currentStreakLabel          = RWTimerTitleLabel(backgroundColor: .systemPurple )
     let currentDayLabel             = RWTimerLabel()
     let currentHourLabel            = RWTimerLabel()
@@ -20,6 +25,8 @@ class RWTimerContainerView: UIView {
     let longestMinLabel             = RWTimerLabel()
     let longestSecLabel             = RWTimerLabel()
     
+    
+    weak var delegate               : RWTimerContainerViewDelegate?
     var padding: CGFloat            = 20
 
     override init(frame: CGRect) {
@@ -134,4 +141,183 @@ class RWTimerContainerView: UIView {
         ])
     }
     
+}
+
+//MARK: - Updating Labels
+extension RWTimerContainerView {
+    
+    func updateTime(time: (days: Int, hours: Int, min: Int, sec: Int)){
+        // This method is used for updating labels every second.
+        
+        if time.sec <= 9 && time.sec >= 1 {
+            currentSecLabel.text = "0\(time.sec)s"
+            
+        } else if time.sec <= 59 && time.sec >= 10 {
+            currentSecLabel.text = "\(time.sec)s"
+            
+        } else {
+            currentSecLabel.text = "0\(time.sec)s"
+            
+            if time.min <= 9 && time.min >= 1{
+                currentMinLabel.text = "0\(time.min)m"
+                
+            } else if time.min <= 59 && time.min >= 10{
+                currentMinLabel.text = "\(time.min)m"
+                
+            } else {
+                currentMinLabel.text = "0\(time.min)m"
+                
+                if time.hours <= 9 && time.hours >= 1{
+                    currentHourLabel.text = "0\(time.hours)h"
+                    
+                } else if time.hours <= 23 && time.hours >= 10{
+                    currentHourLabel.text = "\(time.hours)h"
+                    
+                } else {
+                    currentHourLabel.text = "0\(time.hours)h"
+                    
+                    delegate?.updateDaysLabel(days: time.days) // Updating days Label on MainTimerVC using delegate communication pattern.
+                    
+                    if time.days <= 9 {
+                        currentDayLabel.text = "0\(time.days)d"
+                        
+                    } else {
+                        currentDayLabel.text = "\(time.days)d"
+                        
+                    }
+                    
+                }
+                
+            }
+            
+        }
+        
+        if !timeCalculator.isLongestStreak {
+            longestDayLabel.text = currentDayLabel.text
+            longestHourLabel.text = currentHourLabel.text
+            longestMinLabel.text = currentMinLabel.text
+            longestSecLabel.text = currentSecLabel.text
+        }
+        
+    }
+    
+    func updateStreakUI( result:Result<(days: Int, hours: Int, min: Int, sec: Int), RWError>){
+        // This method updates the longest streak labels according to the Result type.
+            
+            switch result {
+            case .success(let time):
+                if time.sec <= 9 {
+                    longestSecLabel.text = "0\(time.sec)s"
+                } else {
+                    longestSecLabel.text = "\(time.sec)s"
+                }
+                
+                if time.min <= 9 {
+                    longestMinLabel.text = "0\(time.min)m"
+                } else {
+                    longestMinLabel.text = "\(time.min)m"
+                }
+                
+                if time.hours <= 9 {
+                    longestHourLabel.text = "0\(time.hours)h"
+                } else {
+                    longestHourLabel.text = "\(time.hours)h"
+                }
+                
+                if time.days <= 9 {
+                    longestDayLabel.text = "0\(time.days)d"
+                } else {
+                    longestDayLabel.text = "\(time.days)d"
+                }
+                
+                
+            case .failure( _):
+                longestDayLabel.text        = currentDayLabel.text
+                longestHourLabel.text       = currentHourLabel.text
+                longestMinLabel.text        = currentMinLabel.text
+                longestSecLabel.text        = currentSecLabel.text
+                
+            }
+    }
+    
+    func updateOnce( time: (days: Int, hours: Int, min: Int, sec: Int)) {
+        // This method updates all the labels from both the streak.
+        // Should only be used when both current and longest streaks are the same.
+            if time.sec <= 9{
+                currentSecLabel.text = "0\(time.sec)s"
+            } else {
+                currentSecLabel.text = "\(time.sec)s"
+            }
+            
+            if time.min <= 9 {
+                currentMinLabel.text = "0\(time.min)m"
+            } else {
+                currentMinLabel.text = "\(time.min)m"
+            }
+            
+            if time.hours <= 9 {
+                currentHourLabel.text = "0\(time.hours)h"
+            } else {
+                currentHourLabel.text = "\(time.hours)h"
+            }
+            
+            if time.days <= 9 {
+                currentDayLabel.text = "0\(time.days)d"
+            } else {
+                currentDayLabel.text = "\(time.days)d"
+            }
+            
+            if time.days <= 9 {
+                longestDayLabel.text = "0\(time.days)d"
+            } else {
+                longestDayLabel.text = "\(time.days)d"
+            }
+            
+            if time.hours <= 9 {
+                longestHourLabel.text = "0\(time.hours)h"
+            } else {
+                longestHourLabel.text = "\(time.hours)h"
+            }
+            
+            if time.min <= 9 {
+                longestMinLabel.text = "0\(time.min)m"
+            } else {
+                longestMinLabel.text = "\(time.min)m"
+            }
+            
+            if time.sec <= 9 {
+                longestSecLabel.text = "0\(time.sec)s"
+            } else {
+                longestSecLabel.text = "\(time.sec)s"
+            }
+            
+        }
+    
+    func updateCurrentStreak( time: (days: Int, hours: Int, min: Int, sec: Int)) {
+        // This method updates all four labels of current streak.
+        if time.sec <= 9{
+            currentSecLabel.text = "0\(time.sec)s"
+        } else {
+            currentSecLabel.text = "\(time.sec)s"
+        }
+        
+        if time.min <= 9 {
+            currentMinLabel.text = "0\(time.min)m"
+        } else {
+            currentMinLabel.text = "\(time.min)m"
+        }
+        
+        if time.hours <= 9 {
+            currentHourLabel.text = "0\(time.hours)h"
+        } else {
+            currentHourLabel.text = "\(time.hours)h"
+        }
+        
+        if time.days <= 9 {
+            currentDayLabel.text = "0\(time.days)d"
+        } else {
+            currentDayLabel.text = "\(time.days)d"
+        }
+    }
+        
 }

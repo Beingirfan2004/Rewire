@@ -7,9 +7,14 @@
 
 import UIKit
 
+protocol DateAndTimePickerVCDelegate {
+    func resetButtonTapped(date: Date)
+}
+
 class DateAndTimePickerVC: UIViewController {
     var timeCalculator = TimeCalculator()
     var datePicker : RWDatePicker!
+    var delegate: DateAndTimePickerVCDelegate!
     let button = RWButton(title: "RESET STREAK", color: .rwPurple)
     let dateLabel = RWTimerLabel(fontSize: 25, fontWeight: .regular, fontColor: .label)
     let timeLabel = RWTimerLabel(fontSize: 25, fontWeight: .regular, fontColor: .label)
@@ -24,14 +29,17 @@ class DateAndTimePickerVC: UIViewController {
         view.backgroundColor = .systemBackground
     }
     
+    
     @objc func updateLabels() {
         dateLabel.text = datePicker.onlyDate
         timeLabel.text = datePicker.onlyTime
+        
     }
     
     
     @objc func reset() {
-        timeCalculator.resetStreak(date: datePicker.selectedDate)
+        delegate.resetButtonTapped(date: datePicker.selectedDate)
+        dismiss(animated: true)
     }
     
     

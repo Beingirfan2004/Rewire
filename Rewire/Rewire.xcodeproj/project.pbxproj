@@ -23,7 +23,6 @@
 		36320DD42B6CB7FB004AFDDE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36320DD32B6CB7FB004AFDDE /* Constants.swift */; };
 		36320DD62B6CCBC0004AFDDE /* RWError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36320DD52B6CCBC0004AFDDE /* RWError.swift */; };
 		36320DD92B6DF729004AFDDE /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36320DD82B6DF729004AFDDE /* UIView+Ext.swift */; };
-		36320DDB2B6E3465004AFDDE /* MainTimerUIUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36320DDA2B6E3465004AFDDE /* MainTimerUIUpdater.swift */; };
 		36320E1E2B73E72E004AFDDE /* DateAndTimePickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36320E1D2B73E72E004AFDDE /* DateAndTimePickerVC.swift */; };
 		36320E212B73E85C004AFDDE /* RWDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36320E202B73E85C004AFDDE /* RWDatePicker.swift */; };
 /* End PBXBuildFile section */
@@ -47,7 +46,6 @@
 		36320DD32B6CB7FB004AFDDE /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		36320DD52B6CCBC0004AFDDE /* RWError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RWError.swift; sourceTree = "<group>"; };
 		36320DD82B6DF729004AFDDE /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
-		36320DDA2B6E3465004AFDDE /* MainTimerUIUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTimerUIUpdater.swift; sourceTree = "<group>"; };
 		36320E1D2B73E72E004AFDDE /* DateAndTimePickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateAndTimePickerVC.swift; sourceTree = "<group>"; };
 		36320E202B73E85C004AFDDE /* RWDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RWDatePicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -165,7 +163,6 @@
 				36320DD12B6BB12A004AFDDE /* TimeCalculator.swift */,
 				36320DD32B6CB7FB004AFDDE /* Constants.swift */,
 				36320DD52B6CCBC0004AFDDE /* RWError.swift */,
-				36320DDA2B6E3465004AFDDE /* MainTimerUIUpdater.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -261,7 +258,6 @@
 				36320DCF2B6A850D004AFDDE /* RWTabBarController.swift in Sources */,
 				36320DC02B6A1F06004AFDDE /* RWTimerLabel.swift in Sources */,
 				36320DD92B6DF729004AFDDE /* UIView+Ext.swift in Sources */,
-				36320DDB2B6E3465004AFDDE /* MainTimerUIUpdater.swift in Sources */,
 				36320DBE2B6A1749004AFDDE /* RWTimerContainerView.swift in Sources */,
 				36320DC42B6A3CFD004AFDDE /* RWGradientView.swift in Sources */,
 				36320DA02B694665004AFDDE /* SceneDelegate.swift in Sources */,
